@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/shuffleButton"
+        android:icon="@drawable/ic_shuffle_white_48dp"
+        android:title="Shuffle"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/starButton"
+        android:orderInCategory="1"
+        android:title="Toggle Starred"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/backButton"
+        android:orderInCategory="2"
+        android:title="Toggle Sides"
+        app:showAsAction="never" />
+
+
+</menu>
