@@ -278,6 +278,10 @@ public class MainActivity extends AppCompatActivity {
                         // Google Sign In was successful, authenticate with Firebase
                         GoogleSignInAccount account = result.getSignInAccount();
                         firebaseAuthWithGoogle(account);
+                    } else {
+                        Toast.makeText(this,
+                                "Failed to sign into Google.",
+                                Toast.LENGTH_LONG).show();
                     }
             }
         }

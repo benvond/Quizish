@@ -24,7 +24,7 @@ import java.util.Locale;
 public class CardContainerFragment extends Fragment {
 
     public static final String FLIPPED = "FLIPPED";
-    private static final float DISTANCE = 10000;
+    private static final float DISTANCE = 17000;
 
     private CardFragment frontCardFragment;
     private CardFragment backCardFragment;

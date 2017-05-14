@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.benvo.quizish.R;
@@ -20,12 +21,9 @@ import java.util.Collections;
 
 public class DeckViewerActivity extends AppCompatActivity {
 
-    private static final int PAGER_PADDING = 64;
-    private static final float PROGRESS_BAR_SCALE = 2f;
-
     private ViewPager pager;
     private CardPagerAdapter pagerAdapter;
-    private ProgressBar deckProgressBar;
+    private SeekBar deckSeekBar;
     private ArrayList<Card> cards;
 
     @Override
@@ -43,15 +41,11 @@ public class DeckViewerActivity extends AppCompatActivity {
         pagerAdapter = new CardPagerAdapter(getFragmentManager(), cards);
         pager.setAdapter(pagerAdapter);
 
-        // Setting the pager padding and margins to see the last and next card on the sides
-        pager.setClipToPadding(false);
-        pager.setPaddingRelative(PAGER_PADDING, 0, 0, 0);
+        // Creating the seek bar
+        deckSeekBar = (SeekBar) findViewById(R.id.deckSeekBar);
+        deckSeekBar.setMax(cards.size()-1);
 
-        // Creating the progress bar
-        deckProgressBar = (ProgressBar) findViewById(R.id.deckProgressBar);
-        deckProgressBar.setMax(cards.size()-1);
-        deckProgressBar.setScaleY(PROGRESS_BAR_SCALE);
-
+        // Change the seek bar progress when cards are swiped
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -65,7 +59,25 @@ public class DeckViewerActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                setProgressBar();
+                setDeckSeekBar();
+            }
+        });
+
+        // Change the current card when the seek bar is dragged
+        deckSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                pager.setCurrentItem(i);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
 
@@ -95,21 +107,21 @@ public class DeckViewerActivity extends AppCompatActivity {
         }
 
         // Reset the progress bar to display at the beginning
-        setProgressBar();
+        setDeckSeekBar();
 
         return true;
     }
 
     /**
-     * Sets the progress bar correctly to the fill out how far the user is into the deck.
+     * Sets the seek bar correctly to the fill out how far the user is into the deck.
      */
-    private void setProgressBar() {
-        deckProgressBar.setMax(pagerAdapter.getCount() - 1);
+    private void setDeckSeekBar() {
+        deckSeekBar.setMax(pagerAdapter.getCount() - 1);
         // Allows the progress bar to animate for API 24 and above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            deckProgressBar.setProgress(pager.getCurrentItem(), true);
+            deckSeekBar.setProgress(pager.getCurrentItem(), true);
         } else {
-            deckProgressBar.setProgress(pager.getCurrentItem());
+            deckSeekBar.setProgress(pager.getCurrentItem());
         }
     }
 
